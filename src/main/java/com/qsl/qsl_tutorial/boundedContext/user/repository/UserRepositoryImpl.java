@@ -1,9 +1,10 @@
 package com.qsl.qsl_tutorial.boundedContext.user.repository;
 
-import com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser;
 import com.qsl.qsl_tutorial.boundedContext.user.entity.SiteUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+
+import static com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser.siteUser;
 
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
@@ -16,15 +17,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         FROM site_user
         WHERE id = 1;
         */
-
-        QSiteUser siteUser = QSiteUser.siteUser;
-
-        /*
-        return jpaQueryFactory
-                .select(siteUser) // SELECT *
-                .from(siteUser); // FROM site_user
-        */
-
+        
         return jpaQueryFactory
                 .selectFrom(siteUser) // SELECT * FROM site_user
                 .where(siteUser.id.eq(id)) // WHERE id = 1
