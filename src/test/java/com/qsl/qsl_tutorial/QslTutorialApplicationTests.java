@@ -77,4 +77,15 @@ class QslTutorialApplicationTests {
 		assertThat(count).isGreaterThan(0); // 회원 수가 0보다 큰지 확인
 		assertThat(count).isEqualTo(2); // 회원 수가 2인지 확인
 	}
+
+	@Test
+	@DisplayName("가장 오래된 회원")
+	void t5() {
+		SiteUser user = userRepository.getQslUserOrderByIdAscOne();
+
+		assertThat(user.getId()).isEqualTo(1L);
+		assertThat(user.getUsername()).isEqualTo("user1");
+		assertThat(user.getPassword()).isEqualTo("{noop}1234");
+		assertThat(user.getEmail()).isEqualTo("user1@test.com");
+	}
 }
