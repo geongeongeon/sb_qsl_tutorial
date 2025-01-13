@@ -75,5 +75,6 @@ class QslTutorialApplicationTests {
 		long count = userRepository.getQslCount();
 
 		assertThat(count).isGreaterThan(0); // 회원 수가 0보다 큰지 확인
+		assertThat(count).isEqualTo(2); // 회원 수가 2인지 확인
 	}
 }

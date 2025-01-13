@@ -30,6 +30,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         SELECT COUNT(*)
         FROM site_user
         */
-        return 0;
+
+        return jpaQueryFactory
+                .select(siteUser.count())
+                .from(siteUser)
+                .fetchOne();
     }
 }
