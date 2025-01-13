@@ -68,4 +68,12 @@ class QslTutorialApplicationTests {
 		assertThat(u1.getPassword()).isEqualTo("{noop}1234");
 		assertThat(u1.getEmail()).isEqualTo("user2@test.com");
 	}
+
+	@Test
+	@DisplayName("모든 회원 수")
+	void t4() {
+		long count = userRepository.getQslCount();
+
+		assertThat(count).isGreaterThan(0); // 회원 수가 0보다 큰지 확인
+	}
 }
