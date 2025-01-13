@@ -7,12 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Transactional // 각 테스트 케이스에 전부 @Transactional을 붙인 것과 같음
+// @Test + @Transactional 조합은 자동으로 롤백을 유발시킴
 @ActiveProfiles("test")
 class QslTutorialApplicationTests {
 	@Autowired
