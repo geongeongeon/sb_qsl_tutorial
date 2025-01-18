@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -87,5 +88,25 @@ class QslTutorialApplicationTests {
 		assertThat(user.getUsername()).isEqualTo("user1");
 		assertThat(user.getPassword()).isEqualTo("{noop}1234");
 		assertThat(user.getEmail()).isEqualTo("user1@test.com");
+	}
+
+	@Test
+	@DisplayName("전체 회원 오래된 순")
+	void t6() {
+		List<SiteUser> users = userRepository.getQslUserOrderByIdAsc();
+
+		SiteUser user1 = users.get(0);
+
+		assertThat(user1.getId()).isEqualTo(1L);
+		assertThat(user1.getUsername()).isEqualTo("user1");
+		assertThat(user1.getPassword()).isEqualTo("{noop}1234");
+		assertThat(user1.getEmail()).isEqualTo("user1@test.com");
+
+		SiteUser user2 = users.get(1);
+
+		assertThat(user2.getId()).isEqualTo(2L);
+		assertThat(user2.getUsername()).isEqualTo("user2");
+		assertThat(user2.getPassword()).isEqualTo("{noop}1234");
+		assertThat(user2.getEmail()).isEqualTo("user2@test.com");
 	}
 }
