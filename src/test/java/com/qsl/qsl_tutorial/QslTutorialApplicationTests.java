@@ -6,9 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -136,5 +141,55 @@ class QslTutorialApplicationTests {
 		assertThat(user.getUsername()).isEqualTo("user2");
 		assertThat(user.getPassword()).isEqualTo("{noop}1234");
 		assertThat(user.getEmail()).isEqualTo("user2@test.com");
+	}
+
+	@Test
+	@DisplayName("검색, Page 리턴, id ASC, pageSize = 1, page = 1")
+	void t8() {
+		long totalCount = userRepository.count();
+		int pageSize = 1; // 한 페이지에 보여줄 아이템 개수
+		int totalPages = (int) Math.ceil(totalCount / (double) pageSize);
+		int page = 1; // 현재 페이지 -> 2번째 페이지를 의미
+		String kw = "user";
+
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.asc("id")); // id 기준 오름차순
+		// sorts.add(Sort.Order.desc("name")) // name 기준 내림차순
+		Pageable pageable = PageRequest.of(1, pageSize, Sort.by(sorts)); // 한 페이지당 몇 개까지 보여질 것인가
+		Page<SiteUser> usersPage = userRepository.searchQsl(kw, pageable);
+
+		assertThat(usersPage.getTotalPages()).isEqualTo(totalPages);
+		assertThat(usersPage.getNumber()).isEqualTo(page);
+		assertThat(usersPage.getSize()).isEqualTo(pageSize);
+
+		List<SiteUser> users = usersPage.get().toList();
+		assertThat(users.size()).isEqualTo(pageSize);
+
+		SiteUser user = users.get(0);
+
+		assertThat(user.getId()).isEqualTo(2L);
+		assertThat(user.getUsername()).isEqualTo("user2");
+		assertThat(user.getPassword()).isEqualTo("{noop}1234");
+		assertThat(user.getEmail()).isEqualTo("user2@test.com");
+		// 검색어 : user1
+		// 한 페이지에 나올 수 있는 아이템 개수 : 1개
+		// 정렬 : id 정순
+		// 내용 가져오는 쿼리
+		/*
+		SELECT *
+		FROM site_user
+		WHERE username LIKE '%user%'
+		OR email LIKE '%user%'
+		ORDER BY id ASC
+		LIMIT 1, 1;
+		*/
+
+		// 전체 개수를 계산하는 SQL
+		/*
+		SELECT COUNT(*)
+		FROM site_user
+		WHERE username LIKE '%user%'
+		OR email LIKE '%user%'
+		*/
 	}
 }
