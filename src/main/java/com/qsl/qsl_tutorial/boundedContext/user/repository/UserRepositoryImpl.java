@@ -71,6 +71,19 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public List<SiteUser> searchQsl(String kw) {
-        return List.of();
+        /*
+        SELECT *
+        FROM site_user
+        WHERE username = 'user1'
+        OR email = 'user2@test.com';
+        */
+
+        return jpaQueryFactory
+                .selectFrom(siteUser)
+                .where(
+                        siteUser.username.contains(kw)
+                                .or(siteUser.email.contains(kw))
+                )
+                .fetch();
     }
 }

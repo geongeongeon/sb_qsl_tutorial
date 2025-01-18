@@ -130,7 +130,7 @@ class QslTutorialApplicationTests {
 
 		assertThat(users.size()).isEqualTo(1);
 
-		user = users.get(1);
+		user = users.get(0);
 
 		assertThat(user.getId()).isEqualTo(2L);
 		assertThat(user.getUsername()).isEqualTo("user2");
