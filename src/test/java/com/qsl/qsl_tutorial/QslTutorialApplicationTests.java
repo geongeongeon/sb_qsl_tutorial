@@ -171,25 +171,5 @@ class QslTutorialApplicationTests {
 		assertThat(user.getUsername()).isEqualTo("user2");
 		assertThat(user.getPassword()).isEqualTo("{noop}1234");
 		assertThat(user.getEmail()).isEqualTo("user2@test.com");
-		// 검색어 : user1
-		// 한 페이지에 나올 수 있는 아이템 개수 : 1개
-		// 정렬 : id 정순
-		// 내용 가져오는 쿼리
-		/*
-		SELECT *
-		FROM site_user
-		WHERE username LIKE '%user%'
-		OR email LIKE '%user%'
-		ORDER BY id ASC
-		LIMIT 1, 1;
-		*/
-
-		// 전체 개수를 계산하는 SQL
-		/*
-		SELECT COUNT(*)
-		FROM site_user
-		WHERE username LIKE '%user%'
-		OR email LIKE '%user%'
-		*/
 	}
 }
