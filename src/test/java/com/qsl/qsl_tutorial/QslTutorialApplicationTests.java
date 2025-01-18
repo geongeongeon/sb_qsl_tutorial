@@ -109,4 +109,32 @@ class QslTutorialApplicationTests {
 		assertThat(user2.getPassword()).isEqualTo("{noop}1234");
 		assertThat(user2.getEmail()).isEqualTo("user2@test.com");
 	}
+
+	@Test
+	@DisplayName("검색, List 리턴, 검색 대상 : username, email")
+	void t7() {
+		// 검색 : username
+		List<SiteUser> users = userRepository.searchQsl("user1");
+
+		assertThat(users.size()).isEqualTo(1);
+
+		SiteUser user = users.get(0);
+
+		assertThat(user.getId()).isEqualTo(1L);
+		assertThat(user.getUsername()).isEqualTo("user1");
+		assertThat(user.getPassword()).isEqualTo("{noop}1234");
+		assertThat(user.getEmail()).isEqualTo("user1@test.com");
+
+		// 검색 : username
+		users = userRepository.searchQsl("user2");
+
+		assertThat(users.size()).isEqualTo(1);
+
+		user = users.get(1);
+
+		assertThat(user.getId()).isEqualTo(2L);
+		assertThat(user.getUsername()).isEqualTo("user2");
+		assertThat(user.getPassword()).isEqualTo("{noop}1234");
+		assertThat(user.getEmail()).isEqualTo("user2@test.com");
+	}
 }
